@@ -16,7 +16,7 @@ public class Student {
     public Student() {}
 
     public Student(String name, String collegeId, long univRoll, long univReg, int admissionYear, String degree, String course, String stream, String regulation, String semester, boolean isLateral, ArrayList<Paper> regularPapers) {
-        this._id = String.format("%s_%s", univReg, univRoll);
+        this._id = String.valueOf(univRoll);
         this.name = name;
         this.collegeId = collegeId;
         this.univRoll = univRoll;

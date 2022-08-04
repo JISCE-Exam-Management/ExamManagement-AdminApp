@@ -66,7 +66,7 @@ public class BacklogStudentsFragment extends Fragment {
                 @Override
                 public byte[] getBody() {
                     Map<String, List<String>> body = new HashMap<>();
-                    body.put("candidates", new ArrayList<>(exam.getBacklogCandidates().keySet()));
+//                    body.put("candidates", new ArrayList<>(exam.getBacklogCandidates().keySet()));
                     return new JSONObject(body).toString().getBytes(StandardCharsets.UTF_8);
                 }
             }).setRetryPolicy(new DefaultRetryPolicy());

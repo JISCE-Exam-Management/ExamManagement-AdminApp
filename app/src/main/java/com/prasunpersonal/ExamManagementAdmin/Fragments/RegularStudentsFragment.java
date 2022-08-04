@@ -60,7 +60,7 @@ public class RegularStudentsFragment extends Fragment {
                 @Override
                 public byte[] getBody() {
                     Map<String, List<String>> body = new HashMap<>();
-                    body.put("candidates", new ArrayList<>(exam.getRegularCandidates().keySet()));
+//                    body.put("candidates", new ArrayList<>(exam.getRegularCandidates().keySet()));
                     Log.d(TAG, "getBody: "+new JSONObject(body));
                     return new JSONObject(body).toString().getBytes(StandardCharsets.UTF_8);
                 }

@@ -82,22 +82,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/startingTime"
+                    android:id="@+id/examStartingTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/input_bg"
                     android:ems="10"
                     android:gravity="center_vertical"
-                    android:hint="Starting time"
+                    android:hint="Exam Starting time"
                     android:minHeight="48dp"
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="8dp"
+                    android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -106,19 +108,66 @@
                     android:layout_height="match_parent" />
 
                 <TextView
-                    android:id="@+id/endingTime"
+                    android:id="@+id/examEndingTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/input_bg"
                     android:ems="10"
                     android:gravity="center_vertical"
-                    android:hint="Ending time"
+                    android:hint="Exam Ending time"
                     android:minHeight="48dp"
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="8dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/attendanceStartingTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_bg"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:hint="Attendance Starting time"
+                    android:minHeight="48dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/attendanceEndingTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_bg"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:hint="Attendance Ending time"
+                    android:minHeight="48dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
             </LinearLayout>

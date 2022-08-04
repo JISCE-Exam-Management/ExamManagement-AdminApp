@@ -77,7 +77,7 @@ public class ExamsFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.setGroupVisible(R.id.examMenuGroup, true);
+        menu.setGroupVisible(R.id.examsMenuGroup, true);
         menu.setGroupVisible(R.id.studentsMenuGroup, false);
         menu.setGroupVisible(R.id.coursesMenuGroup, false);
         MenuItem searchItem = menu.findItem(R.id.searchExam);
@@ -113,7 +113,7 @@ public class ExamsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.addNewExam) {
+        if (item.getItemId() == R.id.addSingleExam) {
             addNewExam();
         }
         return super.onOptionsItemSelected(item);
@@ -147,10 +147,10 @@ public class ExamsFragment extends Fragment {
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
             datePickerDialog.show();
         });
-        examRegister.startingTime.setOnClickListener(v -> {
+        examRegister.examStartingTime.setOnClickListener(v -> {
             int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY), m = Calendar.getInstance().get(Calendar.MINUTE);
             try {
-                String str = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(examRegister.startingTime.getText().toString())));
+                String str = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(examRegister.examStartingTime.getText().toString())));
                 String[] arr = str.split(":");
                 h = Integer.parseInt(arr[0]);
                 m = Integer.parseInt(arr[1]);
@@ -160,16 +160,16 @@ public class ExamsFragment extends Fragment {
 
             new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
                 try {
-                    examRegister.startingTime.setText(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(hourOfDay + ":" + minute))));
+                    examRegister.examStartingTime.setText(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(hourOfDay + ":" + minute))));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }, h, m, false).show();
         });
-        examRegister.endingTime.setOnClickListener(v -> {
+        examRegister.examEndingTime.setOnClickListener(v -> {
             int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY), m = Calendar.getInstance().get(Calendar.MINUTE);
             try {
-                String str = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(examRegister.endingTime.getText().toString())));
+                String str = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(examRegister.examEndingTime.getText().toString())));
                 String[] arr = str.split(":");
                 h = Integer.parseInt(arr[0]);
                 m = Integer.parseInt(arr[1]);
@@ -179,7 +179,45 @@ public class ExamsFragment extends Fragment {
 
             new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
                 try {
-                    examRegister.endingTime.setText(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(hourOfDay + ":" + minute))));
+                    examRegister.examEndingTime.setText(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(hourOfDay + ":" + minute))));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, h, m, false).show();
+        });
+        examRegister.attendanceStartingTime.setOnClickListener(v -> {
+            int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY), m = Calendar.getInstance().get(Calendar.MINUTE);
+            try {
+                String str = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(examRegister.attendanceStartingTime.getText().toString())));
+                String[] arr = str.split(":");
+                h = Integer.parseInt(arr[0]);
+                m = Integer.parseInt(arr[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
+                try {
+                    examRegister.attendanceStartingTime.setText(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(hourOfDay + ":" + minute))));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, h, m, false).show();
+        });
+        examRegister.attendanceEndingTime.setOnClickListener(v -> {
+            int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY), m = Calendar.getInstance().get(Calendar.MINUTE);
+            try {
+                String str = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(examRegister.attendanceEndingTime.getText().toString())));
+                String[] arr = str.split(":");
+                h = Integer.parseInt(arr[0]);
+                m = Integer.parseInt(arr[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
+                try {
+                    examRegister.attendanceEndingTime.setText(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(Objects.requireNonNull(new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(hourOfDay + ":" + minute))));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -195,34 +233,39 @@ public class ExamsFragment extends Fragment {
                 examRegister.examDate.setError("Exam date is required!");
                 return;
             }
-            if (examRegister.startingTime.getText().toString().trim().isEmpty()) {
-                examRegister.startingTime.setError("Starting time is required!");
+            if (examRegister.examStartingTime.getText().toString().trim().isEmpty()) {
+                examRegister.examStartingTime.setError("Starting time is required!");
                 return;
             }
-            if (examRegister.endingTime.getText().toString().trim().isEmpty()) {
-                examRegister.endingTime.setError("Ending time is required!");
+            if (examRegister.examEndingTime.getText().toString().trim().isEmpty()) {
+                examRegister.examEndingTime.setError("Ending time is required!");
                 return;
             }
 
-            long startingTime = 0;
-            long endingTime = 0;
+            long est = 0, eet = 0, ast = 0, aet = 0;
             try {
-                startingTime = Objects.requireNonNull(new SimpleDateFormat("MMMM dd, yyyy hh:mm aa", Locale.getDefault()).parse(String.format("%s %s", examRegister.examDate.getText(), examRegister.startingTime.getText()))).getTime();
-                endingTime = Objects.requireNonNull(new SimpleDateFormat("MMMM dd, yyyy hh:mm aa", Locale.getDefault()).parse(String.format("%s %s", examRegister.examDate.getText(), examRegister.endingTime.getText()))).getTime();
+                est = Objects.requireNonNull(new SimpleDateFormat("MMMM dd, yyyy hh:mm aa", Locale.getDefault()).parse(String.format("%s %s", examRegister.examDate.getText(), examRegister.examStartingTime.getText()))).getTime();
+                eet = Objects.requireNonNull(new SimpleDateFormat("MMMM dd, yyyy hh:mm aa", Locale.getDefault()).parse(String.format("%s %s", examRegister.examDate.getText(), examRegister.examEndingTime.getText()))).getTime();
+                ast = Objects.requireNonNull(new SimpleDateFormat("MMMM dd, yyyy hh:mm aa", Locale.getDefault()).parse(String.format("%s %s", examRegister.examDate.getText(), examRegister.attendanceStartingTime.getText()))).getTime();
+                aet = Objects.requireNonNull(new SimpleDateFormat("MMMM dd, yyyy hh:mm aa", Locale.getDefault()).parse(String.format("%s %s", examRegister.examDate.getText(), examRegister.attendanceEndingTime.getText()))).getTime();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if (endingTime <= startingTime) {
-                Toast.makeText(requireContext(), "Ending time must be grater than than Starting time!", Toast.LENGTH_SHORT).show();
+            if (eet <= est) {
+                Toast.makeText(requireContext(), "Exam Ending time must be grater than than Exam Starting time!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (aet <= ast || ast < est || aet > eet) {
+                Toast.makeText(requireContext(), "Enter a valid attendance time!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             examRegister.btnNext.setEnabled(false);
             examRegister.registerExamProgress.setVisibility(View.VISIBLE);
 
-            long finalStartingTime = startingTime;
-            long finalEndingTime = endingTime;
+            long finalAst = ast; long finalAet = aet; long finalEst = est; long finalEet = eet;
             QUEUE.add(new JsonArrayRequest(Request.Method.GET, API.ALL_DEGREES, null, degreesArray -> {
                 ArrayList<Degree> degrees = new Gson().fromJson(degreesArray.toString(), new TypeToken<List<Degree>>() {
                 }.getType());
@@ -406,8 +449,10 @@ public class ExamsFragment extends Fragment {
                             examRegister.streams.getAdapter().getItem(examRegister.streams.getSelectedItemPosition()).toString(),
                             examRegister.regulations.getAdapter().getItem(examRegister.regulations.getSelectedItemPosition()).toString(),
                             examRegister.semesters.getAdapter().getItem(examRegister.semesters.getSelectedItemPosition()).toString(),
-                            finalStartingTime,
-                            finalEndingTime);
+                            finalEst,
+                            finalEet,
+                            finalAst,
+                            finalAet);
 
                     QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.ADD_EXAM, null, examResponse -> {
                         Exam newExam = new Gson().fromJson(examResponse.toString(), Exam.class);

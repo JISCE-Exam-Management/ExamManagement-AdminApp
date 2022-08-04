@@ -58,7 +58,7 @@ public class StudentsFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.setGroupVisible(R.id.examMenuGroup, false);
+        menu.setGroupVisible(R.id.examsMenuGroup, false);
         menu.setGroupVisible(R.id.studentsMenuGroup, true);
         menu.setGroupVisible(R.id.coursesMenuGroup, false);
         MenuItem searchItem = menu.findItem(R.id.searchStudent);
@@ -94,7 +94,7 @@ public class StudentsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.addNewStudent) {
+        if (item.getItemId() == R.id.addSingleStudent) {
 
         }
         return super.onOptionsItemSelected(item);

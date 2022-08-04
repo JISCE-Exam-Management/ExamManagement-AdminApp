@@ -6,12 +6,17 @@
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/authentication_screen_bg.xml" value="0.279" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/bottomsheet_dialog_bg.xml" value="0.162" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/dialog_bg.xml" value="0.137" />
+        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/ic_add.xml" value="0.279" />
+        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/ic_file.xml" value="0.279" />
+        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/ic_people.xml" value="0.279" />
+        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/ic_profile.xml" value="0.279" />
+        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/ic_settings.xml" value="0.279" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/input_bg.xml" value="0.279" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/selected_tab_bg.xml" value="0.279" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/drawable/tab_bg.xml" value="0.279" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/layout/activity_authentication.xml" value="0.264" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/layout/activity_exam_details.xml" value="0.43126022913256956" />
-        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/layout/activity_student_details.xml" value="0.264" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/layout/course_item_model.xml" value="0.6" />
@@ -37,7 +42,7 @@
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/layout/student.xml" value="0.2" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/menu/exam_fragment_menu.xml" value="0.1" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/menu/home_drawar.xml" value="0.22245673279864922" />
-        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/menu/home_menu.xml" value="0.536" />
+        <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/menu/home_menu.xml" value="0.4" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/menu/home_navigation.xml" value="0.536" />
         <entry key="..\:/Android Studio/ExamManagementAdmin/app/src/main/res/menu/students_fragment_menu.xml" value="0.6" />
         <entry key="..\:/AndroidStudio/ExamManagementAdmin/app/src/main/res/layout/activity_authentication.xml" value="0.25092592592592594" />

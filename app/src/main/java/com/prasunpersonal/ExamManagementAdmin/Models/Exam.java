@@ -4,22 +4,19 @@ import static com.prasunpersonal.ExamManagementAdmin.App.ME;
 
 import org.parceler.Parcel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 
 @Parcel
 public class Exam {
-    private String _id, name, degree, course, stream, regulation, semester, updatedBy, updateTime;
-    private long startingTime, endingTime;
-    private Map<String, Boolean> regularCandidates, backlogCandidates;
+    private String _id, name, degree, course, stream, regulation, semester;
+    private long examStartingTime, examEndingTime, attendanceStartingTime, attendanceEndingTime;
+    private ArrayList<Hall> halls;
     private Paper paper;
 
     public Exam() {}
 
-    public Exam(String name, Paper paper, String degree, String course, String stream, String regulation, String semester, long startingTime, long endingTime) {
+    public Exam(String name, Paper paper, String degree, String course, String stream, String regulation, String semester, long examStartingTime, long examEndingTime, long attendanceStartingTime, long attendanceEndingTime) {
         this.name = name;
         this.paper = paper;
         this.degree = degree;
@@ -27,9 +24,12 @@ public class Exam {
         this.stream = stream;
         this.regulation = regulation;
         this.semester = semester;
-        this.startingTime = startingTime;
-        this.endingTime = endingTime;
-        this.updatedBy = ME.get_id();
+        this.examStartingTime = examStartingTime;
+        this.examEndingTime = examEndingTime;
+        this.attendanceStartingTime = attendanceStartingTime;
+        this.attendanceEndingTime = attendanceEndingTime;
+        halls = new ArrayList<>();
+
     }
 
     public String get_id() {
@@ -96,51 +96,43 @@ public class Exam {
         this.semester = semester;
     }
 
-    public long getStartingTime() {
-        return startingTime;
+    public long getExamStartingTime() {
+        return examStartingTime;
     }
 
-    public void setStartingTime(long startingTime) {
-        this.startingTime = startingTime;
+    public void setExamStartingTime(long examStartingTime) {
+        this.examStartingTime = examStartingTime;
     }
 
-    public long getEndingTime() {
-        return endingTime;
+    public long getExamEndingTime() {
+        return examEndingTime;
     }
 
-    public void setEndingTime(long endingTime) {
-        this.endingTime = endingTime;
+    public void setExamEndingTime(long examEndingTime) {
+        this.examEndingTime = examEndingTime;
     }
 
-    public String getUpdatedBy() {
-        return updatedBy;
+    public long getAttendanceStartingTime() {
+        return attendanceStartingTime;
     }
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setAttendanceStartingTime(long attendanceStartingTime) {
+        this.attendanceStartingTime = attendanceStartingTime;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
+    public long getAttendanceEndingTime() {
+        return attendanceEndingTime;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
+    public void setAttendanceEndingTime(long attendanceEndingTime) {
+        this.attendanceEndingTime = attendanceEndingTime;
     }
 
-    public Map<String, Boolean> getRegularCandidates() {
-        return regularCandidates;
+    public ArrayList<Hall> getHalls() {
+        return halls;
     }
 
-    public void setRegularCandidates(Map<String, Boolean> regularCandidates) {
-        this.regularCandidates = regularCandidates;
-    }
-
-    public Map<String, Boolean> getBacklogCandidates() {
-        return backlogCandidates;
-    }
-
-    public void setBacklogCandidates(Map<String, Boolean> backlogCandidates) {
-        this.backlogCandidates = backlogCandidates;
+    public void setHalls(ArrayList<Hall> halls) {
+        this.halls = halls;
     }
 }

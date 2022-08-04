@@ -23,7 +23,8 @@
             android:ems="10"
             android:hint="Enter name"
             android:inputType="textPersonName"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:id="@+id/email"
@@ -33,7 +34,8 @@
             android:ems="10"
             android:hint="Enter email address"
             android:inputType="textEmailAddress"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:id="@+id/pass1"
@@ -43,7 +45,8 @@
             android:ems="10"
             android:hint="Enter password"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:id="@+id/pass2"
@@ -53,7 +56,8 @@
             android:ems="10"
             android:hint="Confirm password"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/remember"
@@ -61,17 +65,19 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:checked="true"
-            android:text="Keep me logged in" />
+            android:text="Keep me logged in"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/signup"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="Sign Up"
             android:textColor="@color/btn_positive"
             app:cornerRadius="50dp"
             app:strokeColor="@color/btn_positive"
-            app:strokeWidth="2dp" />
+            app:strokeWidth="2dp"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
