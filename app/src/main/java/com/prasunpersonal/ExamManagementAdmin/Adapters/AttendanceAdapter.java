@@ -9,20 +9,24 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.prasunpersonal.ExamManagementAdmin.Models.Hall;
 import com.prasunpersonal.ExamManagementAdmin.Models.Student;
-import com.prasunpersonal.ExamManagementAdmin.databinding.StudentItemBinding;
+import com.prasunpersonal.ExamManagementAdmin.R;
+import com.prasunpersonal.ExamManagementAdmin.databinding.StudentAttendanceBinding;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> implements Filterable {
-    private final setOnClickListener listener;
+public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.StudentViewHolder> implements Filterable {
     private final ArrayList<Student> students;
     private final ArrayList<Student> allStudents;
+    private Hall hall;
+    private final setOnAttendanceGivenListener listener;
 
-    public StudentAdapter(ArrayList<Student> students, setOnClickListener listener) {
+    public AttendanceAdapter(Hall hall, ArrayList<Student> students,  setOnAttendanceGivenListener listener) {
+        this.hall = hall;
         this.students = students;
         this.allStudents = new ArrayList<>(students);
         this.listener = listener;
@@ -31,7 +35,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     @NonNull
     @Override
     public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new StudentViewHolder(StudentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new StudentViewHolder(StudentAttendanceBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -40,7 +44,16 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         holder.binding.studentBase.studentItemName.setText(student.getName());
         holder.binding.studentBase.studentItemReg.setText(String.valueOf(student.getUnivReg()));
         holder.binding.studentBase.studentItemRoll.setText(String.valueOf(student.getUnivRoll()));
-        holder.itemView.setOnClickListener(v -> listener.OnClickListener(student, position));
+
+        if (Boolean.TRUE.equals(hall.getCandidates().get(student.get_id()))) {
+            holder.binding.presentBtn.setChecked(true);
+        } else if (Boolean.FALSE.equals(hall.getCandidates().get(student.get_id()))){
+            holder.binding.absentBtn.setChecked(true);
+        }
+
+        holder.binding.attendanceGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            listener.OnAttendanceGiven(student, checkedId == R.id.presentBtn, position);
+        });
     }
 
     @Override
@@ -48,8 +61,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         return students.size();
     }
 
-    public interface setOnClickListener {
-        void OnClickListener(Student student, int position);
+    public interface setOnAttendanceGivenListener {
+        void OnAttendanceGiven(Student student, boolean present, int position);
     }
 
     @Override
@@ -80,9 +93,9 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
 
     public static class StudentViewHolder extends RecyclerView.ViewHolder {
-        StudentItemBinding binding;
+        StudentAttendanceBinding binding;
 
-        public StudentViewHolder(@NonNull StudentItemBinding binding) {
+        public StudentViewHolder(@NonNull StudentAttendanceBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

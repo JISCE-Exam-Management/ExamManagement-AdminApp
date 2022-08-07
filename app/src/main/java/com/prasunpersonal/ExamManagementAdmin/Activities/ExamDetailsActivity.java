@@ -2,25 +2,25 @@ package com.prasunpersonal.ExamManagementAdmin.Activities;
 
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager2.widget.ViewPager2;
-
-import android.os.Bundle;
-import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.prasunpersonal.ExamManagementAdmin.Adapters.PagerAdapter;
-import com.prasunpersonal.ExamManagementAdmin.Fragments.BacklogStudentsFragment;
-import com.prasunpersonal.ExamManagementAdmin.Fragments.RegularStudentsFragment;
+import com.prasunpersonal.ExamManagementAdmin.Fragments.CandidatesFragment;
+import com.prasunpersonal.ExamManagementAdmin.Fragments.HallsFragment;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.API;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.ExamDetailsViewModel;
 import com.prasunpersonal.ExamManagementAdmin.Models.Exam;
+import com.prasunpersonal.ExamManagementAdmin.R;
 import com.prasunpersonal.ExamManagementAdmin.databinding.ActivityExamDetailsBinding;
 
 import java.text.SimpleDateFormat;
@@ -41,49 +41,55 @@ public class ExamDetailsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.examDetailsToolbar);
         viewModel = new ViewModelProvider(this).get(ExamDetailsViewModel.class);
-        binding.examDetailsToolbar.setNavigationOnClickListener(v -> finish());
         examId = getIntent().getStringExtra("EXAM_ID");
 
+
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new RegularStudentsFragment());
-        fragments.add(new BacklogStudentsFragment());
+        fragments.add(new HallsFragment());
+        fragments.add(new CandidatesFragment());
 
-        binding.candidatesTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                binding.candidatesViewpager.setCurrentItem(tab.getPosition());
-            }
+        binding.hallViewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(), getLifecycle(), fragments));
+        binding.hallViewpager.setUserInputEnabled(false);
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        binding.candidatesViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                binding.candidatesTab.selectTab(binding.candidatesTab.getTabAt(position));
+        viewModel.getSetSelectedHall().observe(this, hall -> {
+            if (hall != null) {
+                binding.hallViewpager.setCurrentItem(1);
             }
         });
 
-        binding.candidatesViewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(), getLifecycle(), fragments));
-        binding.candidatesViewpager.setOffscreenPageLimit(fragments.size());
+        binding.examDetailsToolbar.setNavigationOnClickListener(v -> {
+            if (binding.hallViewpager.getCurrentItem() == 0) {
+                finish();
+            } else {
+                binding.hallViewpager.setCurrentItem(0);
+            }
+        });
 
         binding.examDetailsRefresh.setOnRefreshListener(this::updateUi);
         updateUi();
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.exam_details_menu, menu);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.hallViewpager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            binding.hallViewpager.setCurrentItem(0);
+        }
+    }
+
     private void updateUi() {
         binding.examDetailsRefresh.setRefreshing(true);
-        QUEUE.add(new JsonObjectRequest(Request.Method.GET, String.format("%s/%s", API.GET_EXAMS_BY_ID, examId), null, response -> {
+        QUEUE.add(new JsonObjectRequest(Request.Method.GET, String.format("%s?exam=%s", API.GET_EXAM_BY_ID, examId), null, response -> {
             Exam exam = new Gson().fromJson(response.toString(), Exam.class);
             viewModel.setSetSelectedExam(exam);
+            binding.hallViewpager.setCurrentItem(0);
             binding.examCategory.setText(String.format("%s / %s / %s / %s / %s / %s", exam.getDegree(), exam.getCourse(), exam.getStream(), exam.getRegulation(), exam.getSemester(), exam.getPaper().getCode()));
             binding.examItemName.setText(exam.getName());
             binding.examItemDate.setText(new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(new Date(exam.getExamStartingTime())));

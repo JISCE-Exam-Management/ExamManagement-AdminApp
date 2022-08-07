@@ -17,19 +17,13 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.prasunpersonal.ExamManagementAdmin.Adapters.PagerAdapter;
 import com.prasunpersonal.ExamManagementAdmin.Fragments.BacklogPapersFragment;
-import com.prasunpersonal.ExamManagementAdmin.Fragments.BacklogStudentsFragment;
 import com.prasunpersonal.ExamManagementAdmin.Fragments.RegularPapersFragment;
-import com.prasunpersonal.ExamManagementAdmin.Fragments.RegularStudentsFragment;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.API;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.StudentDetailsViewModel;
-import com.prasunpersonal.ExamManagementAdmin.Models.Exam;
 import com.prasunpersonal.ExamManagementAdmin.Models.Student;
 import com.prasunpersonal.ExamManagementAdmin.databinding.ActivityStudentDetailsBinding;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class StudentDetailsActivity extends AppCompatActivity {
     ActivityStudentDetailsBinding binding;

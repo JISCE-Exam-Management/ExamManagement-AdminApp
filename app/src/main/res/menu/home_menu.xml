@@ -3,71 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/examsMenuGroup">
+    <group android:id="@+id/homeGroup1">
         <item
-            android:id="@+id/searchExam"
+            android:id="@+id/homeSearch"
             android:icon="@drawable/ic_search"
             android:title="Search"
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             app:showAsAction="always|collapseActionView"
             tools:ignore="HardcodedText" />
-
         <item
-            android:id="@+id/addNewExam"
+            android:id="@+id/homeAddNew"
             android:icon="@drawable/ic_add"
-            android:title="Add New Exam"
+            android:title="Add New "
             app:showAsAction="always"
             tools:ignore="HardcodedText">
             <menu>
                 <item
-                    android:id="@+id/addMultipleExams"
+                    android:id="@+id/homeAddMultiple"
                     android:icon="@drawable/ic_file"
-                    android:title="Add Multiple Exams"
+                    android:title="Add Multiple"
                     app:showAsAction="ifRoom"
                     tools:ignore="AlwaysShowAction,HardcodedText" />
 
                 <item
-                    android:id="@+id/addSingleExam"
+                    android:id="@+id/homeAddSingle"
                     android:icon="@drawable/ic_add"
-                    android:title="Add Single Exam"
+                    android:title="Add Individual"
                     app:showAsAction="ifRoom"
                     tools:ignore="AlwaysShowAction,HardcodedText" />
 
             </menu>
         </item>
-
     </group>
-    <group android:id="@+id/studentsMenuGroup" >
-        <item
-            android:id="@+id/searchStudent"
-            android:icon="@drawable/ic_search"
-            android:title="Search"
-            app:actionViewClass="androidx.appcompat.widget.SearchView"
-            app:showAsAction="always|collapseActionView"
-            tools:ignore="HardcodedText" />
-        <item
-            android:id="@+id/addNewStudent"
-            android:icon="@drawable/ic_add"
-            android:title="Add Exam"
-            app:showAsAction="always"
-            tools:ignore="AlwaysShowAction,HardcodedText" >
-
-            <menu>
-                <item
-                    android:id="@+id/addMultipleStudents"
-                    android:icon="@drawable/ic_file"
-                    android:title="Add Multiple Students"
-                    app:showAsAction="ifRoom"
-                    tools:ignore="AlwaysShowAction,HardcodedText" />
-
-                <item
-                    android:id="@+id/addSingleStudent"
-                    android:icon="@drawable/ic_add"
-                    android:title="Add Single Student"
-                    app:showAsAction="ifRoom"
-                    tools:ignore="AlwaysShowAction,HardcodedText" />
-            </menu>
-        </item>
-    </group>
-    <group android:id="@+id/coursesMenuGroup" />
 </menu>

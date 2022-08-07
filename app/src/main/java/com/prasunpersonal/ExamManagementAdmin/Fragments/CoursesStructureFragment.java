@@ -113,9 +113,7 @@ public class CoursesStructureFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.setGroupVisible(R.id.examsMenuGroup, false);
-        menu.setGroupVisible(R.id.studentsMenuGroup, false);
-        menu.setGroupVisible(R.id.coursesMenuGroup, true);
+        menu.setGroupVisible(R.id.homeGroup1, false);
     }
 
     void updateUi() {

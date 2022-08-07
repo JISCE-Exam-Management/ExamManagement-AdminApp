@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.prasunpersonal.ExamManagementAdmin.Activities.StudentDetailsActivity;
-import com.prasunpersonal.ExamManagementAdmin.Adapters.ExamAdapter;
 import com.prasunpersonal.ExamManagementAdmin.Adapters.StudentAdapter;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.API;
 import com.prasunpersonal.ExamManagementAdmin.Models.Student;
@@ -58,20 +56,20 @@ public class StudentsFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.setGroupVisible(R.id.examsMenuGroup, false);
-        menu.setGroupVisible(R.id.studentsMenuGroup, true);
-        menu.setGroupVisible(R.id.coursesMenuGroup, false);
-        MenuItem searchItem = menu.findItem(R.id.searchStudent);
+        menu.setGroupVisible(R.id.homeGroup1, true);
+        menu.findItem(R.id.homeAddSingle).setTitle("Add Individual Student");
+        menu.findItem(R.id.homeAddMultiple).setTitle("Add Multiple Students");
+        MenuItem searchItem = menu.findItem(R.id.homeSearch);
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                menu.findItem(R.id.addNewStudent).setVisible(false);
+                menu.findItem(R.id.homeAddNew).setVisible(false);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                menu.findItem(R.id.addNewStudent).setVisible(true);
+                menu.findItem(R.id.homeAddNew).setVisible(true);
                 return true;
             }
         });
@@ -94,7 +92,7 @@ public class StudentsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.addSingleStudent) {
+        if (item.getItemId() == R.id.homeAddSingle) {
 
         }
         return super.onOptionsItemSelected(item);

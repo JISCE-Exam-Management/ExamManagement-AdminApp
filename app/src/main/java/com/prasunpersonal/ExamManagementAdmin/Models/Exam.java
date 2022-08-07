@@ -29,7 +29,6 @@ public class Exam {
         this.attendanceStartingTime = attendanceStartingTime;
         this.attendanceEndingTime = attendanceEndingTime;
         halls = new ArrayList<>();
-
     }
 
     public String get_id() {

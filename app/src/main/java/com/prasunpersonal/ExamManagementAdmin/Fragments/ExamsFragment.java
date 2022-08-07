@@ -77,20 +77,20 @@ public class ExamsFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.setGroupVisible(R.id.examsMenuGroup, true);
-        menu.setGroupVisible(R.id.studentsMenuGroup, false);
-        menu.setGroupVisible(R.id.coursesMenuGroup, false);
-        MenuItem searchItem = menu.findItem(R.id.searchExam);
+        menu.setGroupVisible(R.id.homeGroup1, true);
+        menu.findItem(R.id.homeAddSingle).setTitle("Add Individual Exam");
+        menu.findItem(R.id.homeAddMultiple).setTitle("Add Multiple Exams");
+        MenuItem searchItem = menu.findItem(R.id.homeSearch);
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                menu.findItem(R.id.addNewExam).setVisible(false);
+                menu.findItem(R.id.homeAddNew).setVisible(false);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                menu.findItem(R.id.addNewExam).setVisible(true);
+                menu.findItem(R.id.homeAddNew).setVisible(true);
                 return true;
             }
         });
@@ -113,7 +113,7 @@ public class ExamsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.addSingleExam) {
+        if (item.getItemId() == R.id.homeAddSingle) {
             addNewExam();
         }
         return super.onOptionsItemSelected(item);
@@ -454,7 +454,7 @@ public class ExamsFragment extends Fragment {
                             finalAst,
                             finalAet);
 
-                    QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.ADD_EXAM, null, examResponse -> {
+                    QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.ADD_SINGLE_EXAM, null, examResponse -> {
                         Exam newExam = new Gson().fromJson(examResponse.toString(), Exam.class);
                         startActivity(new Intent(requireContext(), ExamDetailsActivity.class).putExtra("EXAM_ID", newExam.get_id()));
                         updateUi();

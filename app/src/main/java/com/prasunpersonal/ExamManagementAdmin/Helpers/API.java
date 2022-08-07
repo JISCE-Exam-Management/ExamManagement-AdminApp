@@ -22,9 +22,16 @@ public class API {
     public static final String DELETE_STUDENT = String.format("%s/students/delete", BASE_URL);
 
     public static final String ALL_EXAMS = String.format("%s/exams/all", BASE_URL);
-    public static final String GET_EXAMS_BY_ID = String.format("%s/exams", BASE_URL);
-    public static final String ADD_EXAM = String.format("%s/exams/add", BASE_URL);
+    public static final String GET_EXAM_BY_ID = String.format("%s/exams", BASE_URL);
+    public static final String ADD_SINGLE_EXAM = String.format("%s/exams/add/single", BASE_URL);
+    public static final String ADD_MULTIPLE_EXAMS = String.format("%s/exams/add/multiple", BASE_URL);
+    public static final String ADD_HALL = String.format("%s/exams/add/hall", BASE_URL);
+    public static final String HALL_CANDIDATES = String.format("%s/exams/hall/candidates", BASE_URL);
     public static final String UPDATE_EXAM = String.format("%s/exams/update", BASE_URL);
+    public static final String UPDATE_HALL = String.format("%s/exams/update/hall", BASE_URL);
     public static final String DELETE_EXAM = String.format("%s/exams/delete", BASE_URL);
     public static final String EXAM_CANDIDATES = String.format("%s/exams/candidates", BASE_URL);
+
+    public static final String ALL_USERS = String.format("%s/users/all", BASE_URL);
+    public static final String UPDATE_USER = String.format("%s/users/update", BASE_URL);
 }
