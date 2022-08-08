@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExamManagementAdmin">
         <activity
+            android:name=".Activities.ManageHallActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.StudentDetailsActivity"
             android:exported="false" />
         <activity

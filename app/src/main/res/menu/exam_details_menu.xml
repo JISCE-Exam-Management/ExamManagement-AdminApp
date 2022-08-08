@@ -10,4 +10,11 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView"
         tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/addNewHall"
+        android:icon="@drawable/ic_add"
+        android:title="Search"
+        app:showAsAction="ifRoom|collapseActionView"
+        tools:ignore="HardcodedText" />
 </menu>

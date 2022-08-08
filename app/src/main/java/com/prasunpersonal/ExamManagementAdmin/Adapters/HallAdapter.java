@@ -38,6 +38,7 @@ public class HallAdapter extends RecyclerView.Adapter<HallAdapter.HallViewHolder
     public void onBindViewHolder(@NonNull HallViewHolder holder, int position) {
         Hall hall = halls.get(position);
         holder.binding.hallItemName.setText(hall.getName());
+        holder.binding.attendanceCount.setText((hall.getUpdatedBy() == null) ? "Attendance not updated till now!" : String.format(Locale.getDefault(), "%d of %d students are present.", hall.getCandidates().values().stream().filter(present -> present).count(), hall.getCandidates().size()));
         holder.itemView.setOnClickListener(v -> listener.OnClickListener(hall, position));
     }
 
@@ -75,7 +76,6 @@ public class HallAdapter extends RecyclerView.Adapter<HallAdapter.HallViewHolder
             }
         };
     }
-
 
     public static class HallViewHolder extends RecyclerView.ViewHolder {
         HallsBinding binding;

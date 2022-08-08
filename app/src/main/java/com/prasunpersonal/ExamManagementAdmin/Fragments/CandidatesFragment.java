@@ -3,7 +3,7 @@ package com.prasunpersonal.ExamManagementAdmin.Fragments;
 import static com.prasunpersonal.ExamManagementAdmin.App.ME;
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -28,9 +28,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.prasunpersonal.ExamManagementAdmin.Activities.StudentDetailsActivity;
 import com.prasunpersonal.ExamManagementAdmin.Adapters.AttendanceAdapter;
-import com.prasunpersonal.ExamManagementAdmin.Adapters.StudentAdapter;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.API;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.ExamDetailsViewModel;
 import com.prasunpersonal.ExamManagementAdmin.Models.Exam;
@@ -42,7 +40,6 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -53,9 +50,9 @@ import java.util.concurrent.TimeUnit;
 public class CandidatesFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
     FragmentCandidatesBinding binding;
+    private ArrayList<Student> students;
 
-    public CandidatesFragment() {
-    }
+    public CandidatesFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +60,7 @@ public class CandidatesFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCandidatesBinding.inflate(inflater, container, false);
@@ -72,11 +70,13 @@ public class CandidatesFragment extends Fragment {
         binding.allCandidates.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
 
         viewModel.getSetSelectedHall().observe(getViewLifecycleOwner(), hall -> {
+            students = new ArrayList<>();
             if (hall != null) {
+                binding.allCandidates.setAdapter(new AttendanceAdapter(hall, students, (student, present, position) -> hall.getCandidates().put(student.get_id(), present)));
                 QUEUE.add(new JsonArrayRequest(Request.Method.POST, API.HALL_CANDIDATES, null, response -> {
-                    ArrayList<Student> students = new Gson().fromJson(response.toString(), new TypeToken<List<Student>>() {}.getType());
-
-                    binding.allCandidates.setAdapter(new AttendanceAdapter(hall, students, (student, present, position) -> hall.getCandidates().put(student.get_id(), present)));
+                    students.clear();
+                    students.addAll(new Gson().fromJson(response.toString(), new TypeToken<List<Student>>() {}.getType()));
+                    Objects.requireNonNull(binding.allCandidates.getAdapter()).notifyDataSetChanged();
 
                     Exam exam = viewModel.getSetSelectedExam().getValue();
                     assert exam != null;

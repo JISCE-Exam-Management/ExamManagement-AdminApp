@@ -2,10 +2,18 @@ package com.prasunpersonal.ExamManagementAdmin.Activities;
 
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,6 +42,12 @@ public class ExamDetailsActivity extends AppCompatActivity {
     private String examId;
     private ExamDetailsViewModel viewModel;
 
+    private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == RESULT_OK) {
+            updateUi();
+        }
+    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +56,6 @@ public class ExamDetailsActivity extends AppCompatActivity {
         setSupportActionBar(binding.examDetailsToolbar);
         viewModel = new ViewModelProvider(this).get(ExamDetailsViewModel.class);
         examId = getIntent().getStringExtra("EXAM_ID");
-
 
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new HallsFragment());
@@ -73,6 +86,14 @@ public class ExamDetailsActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.exam_details_menu, menu);
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.addNewHall) {
+            launcher.launch(new Intent(this, ManageHallActivity.class).putExtra("EXAM_ID", examId));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

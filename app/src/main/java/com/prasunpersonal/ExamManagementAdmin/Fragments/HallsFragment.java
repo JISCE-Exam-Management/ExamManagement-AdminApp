@@ -1,6 +1,8 @@
 package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +34,7 @@ public class HallsFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHallsBinding.inflate(inflater, container, false);
@@ -46,6 +49,9 @@ public class HallsFragment extends Fragment {
             } else {
                 viewModel.setSetSelectedHall(null);
             }
+        });
+        viewModel.getSetSelectedHall().observe(getViewLifecycleOwner(), hall -> {
+            if (binding.allHals.getAdapter() != null) binding.allHals.getAdapter().notifyDataSetChanged();
         });
         return binding.getRoot();
     }

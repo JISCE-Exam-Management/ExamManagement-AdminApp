@@ -10,11 +10,13 @@ public class Hall {
     private long updatedTime;
     private Map<String, Boolean> candidates;
 
-    public Hall() { }
+    public Hall() {}
 
     public Hall(String name, Map<String, Boolean> candidates) {
         this.name = name;
         this.candidates = candidates;
+        this.updatedBy = null;
+        this.updatedTime = 0;
     }
 
     public String get_id() {
