@@ -1,11 +1,9 @@
 package com.prasunpersonal.ExamManagementAdmin.Models;
 
-import static com.prasunpersonal.ExamManagementAdmin.App.ME;
-
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Objects;
 
 @Parcel
 public class Exam {
@@ -133,5 +131,37 @@ public class Exam {
 
     public void setHalls(ArrayList<Hall> halls) {
         this.halls = halls;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Exam)) return false;
+        Exam exam = (Exam) o;
+        return get_id().equals(exam.get_id());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(get_id());
+    }
+
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", degree='" + degree + '\'' +
+                ", course='" + course + '\'' +
+                ", stream='" + stream + '\'' +
+                ", regulation='" + regulation + '\'' +
+                ", semester='" + semester + '\'' +
+                ", examStartingTime=" + examStartingTime +
+                ", examEndingTime=" + examEndingTime +
+                ", attendanceStartingTime=" + attendanceStartingTime +
+                ", attendanceEndingTime=" + attendanceEndingTime +
+                ", halls=" + halls +
+                ", paper=" + paper +
+                '}';
     }
 }

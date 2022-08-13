@@ -16,16 +16,17 @@ import com.prasunpersonal.ExamManagementAdmin.databinding.StudentAttendanceBindi
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.StudentViewHolder> implements Filterable {
-    private final ArrayList<Student> students;
-    private final ArrayList<Student> allStudents;
+    private final List<Student> students;
+    private final List<Student> allStudents;
     private Hall hall;
     private final setOnAttendanceGivenListener listener;
 
-    public AttendanceAdapter(Hall hall, ArrayList<Student> students,  setOnAttendanceGivenListener listener) {
+    public AttendanceAdapter(Hall hall, List<Student> students,  setOnAttendanceGivenListener listener) {
         this.hall = hall;
         this.students = students;
         this.allStudents = new ArrayList<>(students);

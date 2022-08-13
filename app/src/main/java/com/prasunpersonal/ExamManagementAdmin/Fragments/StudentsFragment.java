@@ -1,10 +1,13 @@
 package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
+import static android.app.Activity.RESULT_OK;
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -18,11 +21,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.prasunpersonal.ExamManagementAdmin.Activities.BulkDataActivity;
 import com.prasunpersonal.ExamManagementAdmin.Activities.StudentDetailsActivity;
 import com.prasunpersonal.ExamManagementAdmin.Adapters.StudentAdapter;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.API;
@@ -36,6 +41,18 @@ import java.util.List;
 public class StudentsFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
     FragmentStudentsBinding binding;
+
+    private final ActivityResultLauncher<Intent> launcher2 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == RESULT_OK) {
+            updateUi();
+        }
+    });
+
+    private final ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
+        if (result != null) {
+            launcher2.launch(new Intent(requireContext(), BulkDataActivity.class).putExtra("CATEGORY", BulkDataActivity.CATEGORY_STUDENT).putExtra("TYPE", BulkDataActivity.TYPE_INSERT).putExtra("URI", result));
+        }
+    });
 
     public StudentsFragment() {}
 
@@ -94,6 +111,8 @@ public class StudentsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.homeAddSingle) {
 
+        } else if (item.getItemId() == R.id.homeAddMultiple) {
+            launcher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -114,6 +133,7 @@ public class StudentsFragment extends Fragment {
             binding.studentsRefresher.setRefreshing(false);
         }, error -> {
             binding.studentsRefresher.setRefreshing(false);
+            Toast.makeText(requireContext(), API.parseVolleyError(error), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onCreate: ", error);
         }));
     }

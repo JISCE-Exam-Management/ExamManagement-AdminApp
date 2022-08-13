@@ -99,6 +99,11 @@ public class CandidatesFragment extends Fragment {
                     }
 
                     binding.submitAttendance.setOnClickListener(v -> {
+                        if (hall.getCandidates().containsValue(null)) {
+                            Toast.makeText(requireContext(), "Please select attendance for every candidates!", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
                         binding.submitAttendance.setEnabled(false);
                         binding.addSemesterProgress.setVisibility(View.VISIBLE);
 
@@ -106,7 +111,7 @@ public class CandidatesFragment extends Fragment {
                         hall.setUpdatedTime(System.currentTimeMillis());
 
                         QUEUE.add(new JsonObjectRequest(Request.Method.PATCH, String.format("%s?exam=%s", API.UPDATE_HALL, exam.get_id()), null, newHall -> {
-                            viewModel.setSetSelectedHall(hall);
+                            if (viewModel.getSetSelectedHall().getValue() != null) viewModel.getSetSelectedHall().getValue().setCandidates(hall.getCandidates());
                             binding.submitAttendance.setEnabled(true);
                             binding.addSemesterProgress.setVisibility(View.GONE);
                         }, error -> {

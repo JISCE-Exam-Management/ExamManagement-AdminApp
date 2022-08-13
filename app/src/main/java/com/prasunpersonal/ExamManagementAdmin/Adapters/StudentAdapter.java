@@ -14,15 +14,16 @@ import com.prasunpersonal.ExamManagementAdmin.databinding.StudentItemBinding;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> implements Filterable {
     private final setOnClickListener listener;
-    private final ArrayList<Student> students;
-    private final ArrayList<Student> allStudents;
+    private final List<Student> students;
+    private final List<Student> allStudents;
 
-    public StudentAdapter(ArrayList<Student> students, setOnClickListener listener) {
+    public StudentAdapter(List<Student> students, setOnClickListener listener) {
         this.students = students;
         this.allStudents = new ArrayList<>(students);
         this.listener = listener;

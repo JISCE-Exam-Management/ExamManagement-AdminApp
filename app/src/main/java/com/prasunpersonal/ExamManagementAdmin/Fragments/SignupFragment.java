@@ -1,10 +1,10 @@
 package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.prasunpersonal.ExamManagementAdmin.App.PREFERENCES;
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 import static com.prasunpersonal.ExamManagementAdmin.App.ME;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -15,6 +15,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -23,7 +24,6 @@ import com.google.gson.Gson;
 import com.prasunpersonal.ExamManagementAdmin.Activities.HomeActivity;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.API;
 import com.prasunpersonal.ExamManagementAdmin.Models.Admin;
-import com.prasunpersonal.ExamManagementAdmin.R;
 import com.prasunpersonal.ExamManagementAdmin.databinding.FragmentSignupBinding;
 
 import org.json.JSONException;
@@ -59,15 +59,15 @@ public class SignupFragment extends Fragment {
                 return;
             }
 
-            QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.SIGNUP, null, response -> {
+            QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.ADMIN_SIGNUP, null, response -> {
                 ME = new Gson().fromJson(response.toString(), Admin.class);
                 if (binding.remember.isChecked()) {
-                    requireActivity().getSharedPreferences("AUTHENTICATION", MODE_PRIVATE).edit().putString("EMAIL", ME.getEmail()).putString("PASSWORD", ME.getPassword()).apply();
+                    PREFERENCES.edit().putString("EMAIL", ME.getEmail()).putString("PASSWORD", ME.getPassword()).apply();
                 }
                 startActivity(new Intent(requireContext(), HomeActivity.class));
                 requireActivity().finish();
             }, error -> {
-
+                Toast.makeText(requireContext(), API.parseVolleyError(error), Toast.LENGTH_SHORT).show();
             }) {
                 @Override
                 public byte[] getBody() {

@@ -16,15 +16,16 @@ import com.prasunpersonal.ExamManagementAdmin.databinding.StudentSelectionBindin
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.SelectionViewHolder> implements Filterable {
-    private final ArrayList<Student> students;
-    private final ArrayList<Student> allStudents;
+    private final List<Student> students;
+    private final List<Student> allStudents;
     private final setOnSelectionChangeListener listener;
 
-    public SelectionAdapter(ArrayList<Student> students, setOnSelectionChangeListener listener) {
+    public SelectionAdapter(List<Student> students, setOnSelectionChangeListener listener) {
         this.students = students;
         this.allStudents = new ArrayList<>(students);
         this.listener = listener;

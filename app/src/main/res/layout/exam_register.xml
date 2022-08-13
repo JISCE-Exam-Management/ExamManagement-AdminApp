@@ -56,11 +56,7 @@
                 android:ems="10"
                 android:hint="Exam name"
                 android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="8dp" />
+                android:minHeight="48dp" />
 
             <TextView
                 android:id="@+id/examDate"
@@ -72,10 +68,6 @@
                 android:gravity="center_vertical"
                 android:hint="Exam date"
                 android:minHeight="48dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="8dp"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -95,10 +87,6 @@
                     android:gravity="center_vertical"
                     android:hint="Exam Starting time"
                     android:minHeight="48dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
@@ -117,10 +105,6 @@
                     android:gravity="center_vertical"
                     android:hint="Exam Ending time"
                     android:minHeight="48dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
@@ -141,10 +125,6 @@
                     android:gravity="center_vertical"
                     android:hint="Attendance Starting time"
                     android:minHeight="48dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
@@ -163,10 +143,6 @@
                     android:gravity="center_vertical"
                     android:hint="Attendance Ending time"
                     android:minHeight="48dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp"
                     android:singleLine="true"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />

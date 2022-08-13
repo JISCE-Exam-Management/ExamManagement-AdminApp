@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ public class RegularPapersFragment extends Fragment {
         StudentDetailsViewModel viewModel = new ViewModelProvider(requireActivity()).get(StudentDetailsViewModel.class);
         viewModel.getSetSelectedStudent().observe(getViewLifecycleOwner(), student -> {
             binding.allRegularPapers.setLayoutManager(new LinearLayoutManager(requireContext()));
+            binding.allRegularPapers.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
             binding.allRegularPapers.setAdapter(new CourseStructureItemAdapter<>(student.getRegularPapers(), (item, position) -> {}));
         });
         return binding.getRoot();

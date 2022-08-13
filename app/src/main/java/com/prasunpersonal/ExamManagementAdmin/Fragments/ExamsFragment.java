@@ -1,5 +1,6 @@
 package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
+import static android.app.Activity.RESULT_OK;
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
 import android.app.DatePickerDialog;
@@ -16,12 +17,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -30,6 +34,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.prasunpersonal.ExamManagementAdmin.Activities.BulkDataActivity;
 import com.prasunpersonal.ExamManagementAdmin.Activities.ExamDetailsActivity;
 import com.prasunpersonal.ExamManagementAdmin.Adapters.ExamAdapter;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.API;
@@ -56,6 +61,18 @@ import java.util.stream.Collectors;
 public class ExamsFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
     FragmentExamsBinding binding;
+
+    private final ActivityResultLauncher<Intent> launcher2 = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == RESULT_OK) {
+            updateUi();
+        }
+    });
+
+    private final ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
+        if (result != null) {
+            launcher2.launch(new Intent(requireContext(), BulkDataActivity.class).putExtra("CATEGORY", BulkDataActivity.CATEGORY_EXAM).putExtra("TYPE", BulkDataActivity.TYPE_INSERT).putExtra("URI", result));
+        }
+    });
 
     public ExamsFragment() {
     }
@@ -115,6 +132,8 @@ public class ExamsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.homeAddSingle) {
             addNewExam();
+        } else if (item.getItemId() == R.id.homeAddMultiple) {
+            launcher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -488,14 +507,16 @@ public class ExamsFragment extends Fragment {
             }.getType());
             try {
                 binding.allExams.setLayoutManager(new LinearLayoutManager(requireContext()));
+                binding.allExams.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
                 binding.allExams.setAdapter(new ExamAdapter(exams, (exam, position) -> startActivity(new Intent(requireContext(), ExamDetailsActivity.class).putExtra("EXAM_ID", exam.get_id()))));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             binding.examRefresher.setRefreshing(false);
         }, error -> {
-            Log.d(TAG, "onCreate: ", error);
             binding.examRefresher.setRefreshing(false);
+            Toast.makeText(requireContext(), API.parseVolleyError(error), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onCreate: ", error);
         })).setRetryPolicy(new DefaultRetryPolicy());
     }
 }

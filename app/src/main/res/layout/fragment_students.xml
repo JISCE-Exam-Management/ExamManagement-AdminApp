@@ -9,7 +9,5 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/allStudents"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp" />
+        android:layout_height="match_parent" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -2,6 +2,7 @@ package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -39,12 +41,14 @@ public class PapersFragment extends Fragment {
 
     public PapersFragment() {}
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentPapersBinding binding = FragmentPapersBinding.inflate(inflater, container, false);
         assert getParentFragment() != null;
         CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
         binding.allPapers.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.allPapers.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.getSelectedSemester().observe(getViewLifecycleOwner(), semester -> {
             if (semester != null) {
                 binding.addPapersArea.setVisibility(View.VISIBLE);
@@ -68,7 +72,14 @@ public class PapersFragment extends Fragment {
             binding.paperName.setEnabled(false);
             binding.paperCode.setEnabled(false);
             Paper paper = new Paper(binding.paperCode.getText().toString().trim(), binding.paperName.getText().toString().trim());
-            QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.ADD_PAPER, null, response -> {
+
+            Map<String, String> params = new HashMap<>();
+            params.put("degree", Objects.requireNonNull(viewModel.getSelectedDegree().getValue()).get_id());
+            params.put("course", Objects.requireNonNull(viewModel.getSelectedCourse().getValue()).get_id());
+            params.put("stream", Objects.requireNonNull(viewModel.getSelectedStream().getValue()).get_id());
+            params.put("regulation", Objects.requireNonNull(viewModel.getSelectedRegulation().getValue()).get_id());
+            params.put("semester", Objects.requireNonNull(viewModel.getSelectedSemester().getValue()).get_id());
+            QUEUE.add(new JsonObjectRequest(Request.Method.POST, String.format("%s%s",API.ADD_PAPER, API.getQuery(params)), null, response -> {
                 if (viewModel.getSelectedSemester().getValue() != null) {
                     Degree degree = new Gson().fromJson(response.toString(), Degree.class);
                     Course course = degree.getCourses().get(degree.getCourses().indexOf(viewModel.getSelectedCourse().getValue()));
@@ -93,14 +104,7 @@ public class PapersFragment extends Fragment {
             }) {
                 @Override
                 public byte[] getBody() {
-                    Map<String, String> object = new HashMap<>();
-                    object.put("degree", Objects.requireNonNull(viewModel.getSelectedDegree().getValue()).get_id());
-                    object.put("course", Objects.requireNonNull(viewModel.getSelectedCourse().getValue()).get_id());
-                    object.put("stream", Objects.requireNonNull(viewModel.getSelectedStream().getValue()).get_id());
-                    object.put("regulation", Objects.requireNonNull(viewModel.getSelectedRegulation().getValue()).get_id());
-                    object.put("semester", Objects.requireNonNull(viewModel.getSelectedSemester().getValue()).get_id());
-                    object.put("paper", new Gson().toJson(paper));
-                    return new JSONObject(object).toString().getBytes(StandardCharsets.UTF_8);
+                    return new Gson().toJson(paper).getBytes(StandardCharsets.UTF_8);
                 }
             }).setRetryPolicy(new DefaultRetryPolicy());
         });

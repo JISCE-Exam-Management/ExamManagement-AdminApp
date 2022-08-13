@@ -2,6 +2,7 @@ package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -36,12 +38,14 @@ public class StreamsFragment extends Fragment {
 
     public StreamsFragment() {}
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentStreamsBinding binding = FragmentStreamsBinding.inflate(inflater, container, false);
         assert getParentFragment() != null;
         CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
         binding.allStreams.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.allStreams.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.setSelectedStream(null);
         viewModel.getSelectedCourse().observe(getViewLifecycleOwner(), course -> {
             if (course != null) {
@@ -61,7 +65,11 @@ public class StreamsFragment extends Fragment {
             binding.addStreamProgress.setVisibility(View.VISIBLE);
             binding.streamName.setEnabled(false);
             Stream stream = new Stream(binding.streamName.getText().toString().trim());
-            QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.ADD_STREAM, null, response -> {
+
+            Map<String, String> params = new HashMap<>();
+            params.put("degree", Objects.requireNonNull(viewModel.getSelectedDegree().getValue()).get_id());
+            params.put("course", Objects.requireNonNull(viewModel.getSelectedCourse().getValue()).get_id());
+            QUEUE.add(new JsonObjectRequest(Request.Method.POST, String.format("%s%s",API.ADD_STREAM, API.getQuery(params)), null, response -> {
                 if (viewModel.getSelectedCourse().getValue() != null) {
                     Degree degree = new Gson().fromJson(response.toString(), Degree.class);
                     viewModel.getSelectedCourse().getValue().getStreams().clear();
@@ -80,11 +88,7 @@ public class StreamsFragment extends Fragment {
             }) {
                 @Override
                 public byte[] getBody() {
-                    Map<String, String> object = new HashMap<>();
-                    object.put("degree", Objects.requireNonNull(viewModel.getSelectedDegree().getValue()).get_id());
-                    object.put("course", Objects.requireNonNull(viewModel.getSelectedCourse().getValue()).get_id());
-                    object.put("stream", new Gson().toJson(stream));
-                    return new JSONObject(object).toString().getBytes(StandardCharsets.UTF_8);
+                    return new Gson().toJson(stream).getBytes(StandardCharsets.UTF_8);
                 }
 
                 @NonNull

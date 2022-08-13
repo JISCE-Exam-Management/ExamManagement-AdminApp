@@ -51,8 +51,6 @@
                 android:hint="Enter semester name"
                 android:inputType="textPersonName"
                 android:minHeight="40dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <Button

@@ -1,12 +1,15 @@
 package com.prasunpersonal.ExamManagementAdmin.Models;
 
+import androidx.annotation.Nullable;
+
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 @Parcel
 public class Student {
-    private String _id, name, collegeId, degree, course, stream, regulation, semester;
+    private String _id, name, email, phone, collegeId, degree, course, stream, regulation, semester;
     private long univRoll, univReg;
     private int admissionYear;
     private boolean isLateral;
@@ -15,9 +18,11 @@ public class Student {
 
     public Student() {}
 
-    public Student(String name, String collegeId, long univRoll, long univReg, int admissionYear, String degree, String course, String stream, String regulation, String semester, boolean isLateral, ArrayList<Paper> regularPapers) {
+    public Student(String name, @Nullable String email, @Nullable String phone, String collegeId, long univRoll, long univReg, int admissionYear, boolean isLateral, String degree, String course, String stream, String regulation, String semester, ArrayList<Paper> regularPapers, ArrayList<Paper> backlogPapers) {
         this._id = String.valueOf(univRoll);
         this.name = name;
+        this.email = email;
+        this.phone = phone;
         this.collegeId = collegeId;
         this.univRoll = univRoll;
         this.univReg = univReg;
@@ -29,6 +34,7 @@ public class Student {
         this.semester = semester;
         this.isLateral = isLateral;
         this.regularPapers = regularPapers;
+        this.backlogPapers = backlogPapers;
     }
 
     public String get_id() {
@@ -45,6 +51,22 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getCollegeId() {
@@ -141,5 +163,40 @@ public class Student {
 
     public void setBacklogPapers(ArrayList<Paper> backlogPapers) {
         this.backlogPapers = backlogPapers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return get_id().equals(student.get_id());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(get_id());
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", collegeId='" + collegeId + '\'' +
+                ", degree='" + degree + '\'' +
+                ", course='" + course + '\'' +
+                ", stream='" + stream + '\'' +
+                ", regulation='" + regulation + '\'' +
+                ", semester='" + semester + '\'' +
+                ", univRoll=" + univRoll +
+                ", univReg=" + univReg +
+                ", admissionYear=" + admissionYear +
+                ", isLateral=" + isLateral +
+                ", regularPapers=" + regularPapers +
+                ", backlogPapers=" + backlogPapers +
+                '}';
     }
 }

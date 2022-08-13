@@ -7,10 +7,7 @@
     android:background="?attr/colorOnPrimary"
     app:cardCornerRadius="0dp"
     app:cardElevation="5dp"
-    app:contentPaddingBottom="8dp"
-    app:contentPaddingLeft="16dp"
-    app:contentPaddingRight="16dp"
-    app:contentPaddingTop="8dp">
+    app:contentPadding="16dp">
 
     <include
         android:id="@+id/studentBase"

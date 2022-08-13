@@ -16,15 +16,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder> implements Filterable {
     private final setOnClickListener listener;
-    private final ArrayList<Exam> exams;
-    private final ArrayList<Exam> allExams;
+    private final List<Exam> exams;
+    private final List<Exam> allExams;
 
-    public ExamAdapter(ArrayList<Exam> exams, setOnClickListener listener) {
+    public ExamAdapter(List<Exam> exams, setOnClickListener listener) {
         this.exams = exams;
         this.allExams = new ArrayList<>(exams);
         this.listener = listener;

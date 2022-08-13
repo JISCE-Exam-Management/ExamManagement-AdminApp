@@ -17,8 +17,10 @@
             android:id="@+id/courseStructureTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:background="?android:attr/colorBackground"
+            android:elevation="5dp"
             android:gravity="center_vertical"
+            android:minHeight="48dp"
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="8dp">

@@ -2,6 +2,7 @@ package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -36,12 +38,14 @@ public class CoursesFragment extends Fragment {
 
     public CoursesFragment() {}
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentCoursesBinding binding = FragmentCoursesBinding.inflate(inflater, container, false);
         assert getParentFragment() != null;
         CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
         binding.allCourses.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.allCourses.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.setSelectedCourse(null);
         viewModel.getSelectedDegree().observe(getViewLifecycleOwner(), degree -> {
             if (degree != null) {
@@ -62,7 +66,10 @@ public class CoursesFragment extends Fragment {
             binding.addCourseProgress.setVisibility(View.VISIBLE);
             binding.courseName.setEnabled(false);
             Course course = new Course(binding.courseName.getText().toString().trim());
-            QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.ADD_COURSE, null, response -> {
+
+            Map<String, String> params = new HashMap<>();
+            params.put("degree", Objects.requireNonNull(viewModel.getSelectedDegree().getValue()).get_id());
+            QUEUE.add(new JsonObjectRequest(Request.Method.POST, String.format("%s%s",API.ADD_COURSE, API.getQuery(params)), null, response -> {
                 if (viewModel.getSelectedDegree().getValue() != null) {
                     Degree selectedDegree = viewModel.getSelectedDegree().getValue();
                     selectedDegree.getCourses().clear();
@@ -81,10 +88,7 @@ public class CoursesFragment extends Fragment {
             }) {
                 @Override
                 public byte[] getBody() {
-                    Map<String, String> object = new HashMap<>();
-                    object.put("degree", Objects.requireNonNull(viewModel.getSelectedDegree().getValue()).get_id());
-                    object.put("course", new Gson().toJson(course));
-                    return new JSONObject(object).toString().getBytes(StandardCharsets.UTF_8);
+                    return new Gson().toJson(course).getBytes(StandardCharsets.UTF_8);
                 }
             }).setRetryPolicy(new DefaultRetryPolicy());
         });

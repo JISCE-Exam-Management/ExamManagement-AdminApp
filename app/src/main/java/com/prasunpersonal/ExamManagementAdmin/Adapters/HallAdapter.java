@@ -14,15 +14,16 @@ import com.prasunpersonal.ExamManagementAdmin.databinding.HallsBinding;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class HallAdapter extends RecyclerView.Adapter<HallAdapter.HallViewHolder> implements Filterable {
     private final setOnClickListener listener;
-    private final ArrayList<Hall> halls;
-    private final ArrayList<Hall> allHalls;
+    private final List<Hall> halls;
+    private final List<Hall> allHalls;
 
-    public HallAdapter(ArrayList<Hall> halls, setOnClickListener listener) {
+    public HallAdapter(List<Hall> halls, setOnClickListener listener) {
         this.halls = halls;
         this.allHalls = new ArrayList<>(halls);
         this.listener = listener;

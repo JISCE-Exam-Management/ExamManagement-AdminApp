@@ -66,7 +66,7 @@ public class ManageHallActivity extends AppCompatActivity {
                 binding.candidatesCount.setText(String.valueOf(candidates.size()));
             }));
         }, error -> {
-            Log.d(TAG, "onCreate: ", error);
+            Toast.makeText(this, API.parseVolleyError(error), Toast.LENGTH_SHORT).show();
         })).setRetryPolicy(new DefaultRetryPolicy());
 
         binding.studentSelectionToolbar.setNavigationOnClickListener(v -> {
@@ -118,7 +118,6 @@ public class ManageHallActivity extends AppCompatActivity {
         }) {
             @Override
             public byte[] getBody() {
-                Log.d(TAG, "getBody: "+new GsonBuilder().serializeNulls().create().toJson(new Hall(binding.hallName.getText().toString().trim(), candidates)));
                 return new GsonBuilder().serializeNulls().create().toJson(new Hall(binding.hallName.getText().toString().trim(), candidates)).getBytes(StandardCharsets.UTF_8);
             }
         }).setRetryPolicy(new DefaultRetryPolicy());
@@ -139,14 +138,11 @@ public class ManageHallActivity extends AppCompatActivity {
                 }).setNeutralButton("Cancel", (dialog1, which) -> {
                     dialog1.dismiss();
                 }).create();
-
         dialog.setOnShowListener(dialog12 -> {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getColor(R.color.success_color));
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getColor(R.color.error_color));
             dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getColor(android.R.color.darker_gray));
         });
-
-
         dialog.show();
     }
 }

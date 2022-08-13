@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -36,6 +37,7 @@ public class DegreesFragment extends Fragment {
         assert getParentFragment() != null;
         CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
         binding.allDegrees.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.allDegrees.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.setSelectedDegree(null);
         viewModel.getAllDegrees().observe(getViewLifecycleOwner(), degrees -> {
             if (degrees != null) {

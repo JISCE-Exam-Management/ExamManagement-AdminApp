@@ -1,6 +1,7 @@
 package com.prasunpersonal.ExamManagementAdmin.Activities;
 
 import static com.prasunpersonal.ExamManagementAdmin.App.ME;
+import static com.prasunpersonal.ExamManagementAdmin.App.PREFERENCES;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
 public class HomeActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getSimpleName();
     ActivityHomeBinding binding;
-    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,6 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.homeToolbar);
-        preferences = getSharedPreferences("AUTHENTICATION", MODE_PRIVATE);
 
         binding.homeToolbar.setNavigationOnClickListener(v -> binding.homeDrawar.open());
         View navHeader = binding.homeNavigation.getHeaderView(0);
@@ -47,9 +46,11 @@ public class HomeActivity extends AppCompatActivity {
 
         binding.homeNavigation.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.logout) {
-                preferences.edit().remove("EMAIL").remove("PASSWORD").apply();
+                PREFERENCES.edit().remove("EMAIL").remove("PASSWORD").apply();
                 startActivity(new Intent(this, MainActivity.class));
                 finishAffinity();
+            } else if (item.getItemId() == R.id.users) {
+                startActivity(new Intent(this, UsersActivity.class));
             }
             return true;
         });

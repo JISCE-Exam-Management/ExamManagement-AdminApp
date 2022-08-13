@@ -12,9 +12,7 @@
         android:id="@+id/allStreams"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp">
+        android:layout_weight="1">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -55,8 +53,6 @@
                 android:hint="Enter stream name"
                 android:inputType="textPersonName"
                 android:minHeight="40dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <Button

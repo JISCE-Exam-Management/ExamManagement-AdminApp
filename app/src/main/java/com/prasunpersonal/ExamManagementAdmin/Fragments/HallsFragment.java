@@ -2,7 +2,6 @@ package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,10 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.prasunpersonal.ExamManagementAdmin.Adapters.HallAdapter;
-import com.prasunpersonal.ExamManagementAdmin.Adapters.StudentAdapter;
 import com.prasunpersonal.ExamManagementAdmin.Helpers.ExamDetailsViewModel;
 import com.prasunpersonal.ExamManagementAdmin.R;
 import com.prasunpersonal.ExamManagementAdmin.databinding.FragmentHallsBinding;
@@ -40,6 +39,7 @@ public class HallsFragment extends Fragment {
         binding = FragmentHallsBinding.inflate(inflater, container, false);
         ExamDetailsViewModel viewModel = new ViewModelProvider(requireActivity()).get(ExamDetailsViewModel.class);
         binding.allHals.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.allHals.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.setSetSelectedHall(null);
         viewModel.getSetSelectedExam().observe(getViewLifecycleOwner(), exam -> {
             if (exam != null) {
@@ -49,9 +49,6 @@ public class HallsFragment extends Fragment {
             } else {
                 viewModel.setSetSelectedHall(null);
             }
-        });
-        viewModel.getSetSelectedHall().observe(getViewLifecycleOwner(), hall -> {
-            if (binding.allHals.getAdapter() != null) binding.allHals.getAdapter().notifyDataSetChanged();
         });
         return binding.getRoot();
     }

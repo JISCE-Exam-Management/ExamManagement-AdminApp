@@ -2,6 +2,7 @@ package com.prasunpersonal.ExamManagementAdmin.Fragments;
 
 import static com.prasunpersonal.ExamManagementAdmin.App.QUEUE;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -38,12 +40,14 @@ public class SemestersFragment extends Fragment {
 
     public SemestersFragment() {}
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentSemestersBinding binding = FragmentSemestersBinding.inflate(inflater, container, false);
         assert getParentFragment() != null;
         CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
         binding.allSemesters.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.allSemesters.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.setSelectedSemester(null);
         viewModel.getSelectedRegulation().observe(getViewLifecycleOwner(), regulation -> {
             if (regulation != null) {
@@ -64,7 +68,13 @@ public class SemestersFragment extends Fragment {
             binding.addSemesterProgress.setVisibility(View.VISIBLE);
             binding.semesterName.setEnabled(false);
             Semester semester = new Semester(binding.semesterName.getText().toString().trim());
-            QUEUE.add(new JsonObjectRequest(Request.Method.POST, API.ADD_SEMESTER, null, response -> {
+
+            Map<String, String> params = new HashMap<>();
+            params.put("degree", Objects.requireNonNull(viewModel.getSelectedDegree().getValue()).get_id());
+            params.put("course", Objects.requireNonNull(viewModel.getSelectedCourse().getValue()).get_id());
+            params.put("stream", Objects.requireNonNull(viewModel.getSelectedStream().getValue()).get_id());
+            params.put("regulation", Objects.requireNonNull(viewModel.getSelectedRegulation().getValue()).get_id());
+            QUEUE.add(new JsonObjectRequest(Request.Method.POST, String.format("%s%s",API.ADD_SEMESTER, API.getQuery(params)), null, response -> {
                 if (viewModel.getSelectedRegulation().getValue() != null) {
                     Degree degree = new Gson().fromJson(response.toString(), Degree.class);
                     Course course = degree.getCourses().get(degree.getCourses().indexOf(viewModel.getSelectedCourse().getValue()));
@@ -85,13 +95,7 @@ public class SemestersFragment extends Fragment {
             }) {
                 @Override
                 public byte[] getBody() {
-                    Map<String, String> object = new HashMap<>();
-                    object.put("degree", Objects.requireNonNull(viewModel.getSelectedDegree().getValue()).get_id());
-                    object.put("course", Objects.requireNonNull(viewModel.getSelectedCourse().getValue()).get_id());
-                    object.put("stream", Objects.requireNonNull(viewModel.getSelectedStream().getValue()).get_id());
-                    object.put("regulation", Objects.requireNonNull(viewModel.getSelectedRegulation().getValue()).get_id());
-                    object.put("semester", new Gson().toJson(semester));
-                    return new JSONObject(object).toString().getBytes(StandardCharsets.UTF_8);
+                    return new Gson().toJson(semester).getBytes(StandardCharsets.UTF_8);
                 }
             }).setRetryPolicy(new DefaultRetryPolicy());
         });

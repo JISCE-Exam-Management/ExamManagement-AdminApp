@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class BacklogPapersFragment extends Fragment {
         StudentDetailsViewModel viewModel = new ViewModelProvider(requireActivity()).get(StudentDetailsViewModel.class);
         viewModel.getSetSelectedStudent().observe(getViewLifecycleOwner(), student -> {
             binding.allBacklogPapers.setLayoutManager(new LinearLayoutManager(requireContext()));
+            binding.allBacklogPapers.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
             binding.allBacklogPapers.setAdapter(new CourseStructureItemAdapter<>(student.getBacklogPapers(), (item, position) -> {}));
         });
         return binding.getRoot();
