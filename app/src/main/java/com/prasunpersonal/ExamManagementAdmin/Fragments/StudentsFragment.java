@@ -50,7 +50,7 @@ public class StudentsFragment extends Fragment {
 
     private final ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
         if (result != null) {
-            launcher2.launch(new Intent(requireContext(), BulkDataActivity.class).putExtra("CATEGORY", BulkDataActivity.CATEGORY_STUDENT).putExtra("TYPE", BulkDataActivity.TYPE_INSERT).putExtra("URI", result));
+            launcher2.launch(new Intent(requireContext(), BulkDataActivity.class).putExtra("CATEGORY", BulkDataActivity.CATEGORY_STUDENT).putExtra("URI", result));
         }
     });
 
@@ -73,20 +73,18 @@ public class StudentsFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.setGroupVisible(R.id.homeGroup1, true);
-        menu.findItem(R.id.homeAddSingle).setTitle("Add Individual Student");
-        menu.findItem(R.id.homeAddMultiple).setTitle("Add Multiple Students");
+        menu.findItem(R.id.homeAddNew).setTitle("Insert Students");
         MenuItem searchItem = menu.findItem(R.id.homeSearch);
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                menu.findItem(R.id.homeAddNew).setVisible(false);
+                menu.setGroupVisible(R.id.hidden, false);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                menu.findItem(R.id.homeAddNew).setVisible(true);
+                menu.setGroupVisible(R.id.hidden, true);
                 return true;
             }
         });
@@ -109,9 +107,7 @@ public class StudentsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.homeAddSingle) {
-
-        } else if (item.getItemId() == R.id.homeAddMultiple) {
+        if (item.getItemId() == R.id.homeAddNew) {
             launcher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
         return super.onOptionsItemSelected(item);
@@ -123,9 +119,7 @@ public class StudentsFragment extends Fragment {
             ArrayList<Student> students = new Gson().fromJson(response.toString(), new TypeToken<List<Student>>(){}.getType());
             try {
                 binding.allStudents.setLayoutManager(new LinearLayoutManager(requireContext()));
-                binding.allStudents.setAdapter(new StudentAdapter(students, (student, position) -> {
-                    startActivity(new Intent(requireContext(), StudentDetailsActivity.class).putExtra("STUDENT_ID", student.get_id()));
-                }));
+                binding.allStudents.setAdapter(new StudentAdapter(students, (student, position) -> startActivity(new Intent(requireContext(), StudentDetailsActivity.class).putExtra("STUDENT_ID", student.get_id()))));
                 binding.allStudents.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
             } catch (Exception e) {
                 e.printStackTrace();

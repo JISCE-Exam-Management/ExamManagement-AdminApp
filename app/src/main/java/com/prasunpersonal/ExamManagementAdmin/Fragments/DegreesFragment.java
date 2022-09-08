@@ -34,8 +34,7 @@ public class DegreesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentDegreesBinding binding = FragmentDegreesBinding.inflate(inflater, container, false);
-        assert getParentFragment() != null;
-        CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
+        CourseStructureViewModel viewModel = new ViewModelProvider(requireActivity()).get(CourseStructureViewModel.class);
         binding.allDegrees.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.allDegrees.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.setSelectedDegree(null);

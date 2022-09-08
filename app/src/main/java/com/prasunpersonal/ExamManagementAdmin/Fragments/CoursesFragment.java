@@ -26,8 +26,6 @@ import com.prasunpersonal.ExamManagementAdmin.Models.Course;
 import com.prasunpersonal.ExamManagementAdmin.Models.Degree;
 import com.prasunpersonal.ExamManagementAdmin.databinding.FragmentCoursesBinding;
 
-import org.json.JSONObject;
-
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,8 +40,7 @@ public class CoursesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentCoursesBinding binding = FragmentCoursesBinding.inflate(inflater, container, false);
-        assert getParentFragment() != null;
-        CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
+        CourseStructureViewModel viewModel = new ViewModelProvider(requireActivity()).get(CourseStructureViewModel.class);
         binding.allCourses.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.allCourses.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.setSelectedCourse(null);

@@ -45,8 +45,7 @@ public class PapersFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentPapersBinding binding = FragmentPapersBinding.inflate(inflater, container, false);
-        assert getParentFragment() != null;
-        CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
+        CourseStructureViewModel viewModel = new ViewModelProvider(requireActivity()).get(CourseStructureViewModel.class);
         binding.allPapers.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.allPapers.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.getSelectedSemester().observe(getViewLifecycleOwner(), semester -> {

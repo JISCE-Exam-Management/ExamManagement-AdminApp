@@ -4,25 +4,20 @@ import static com.prasunpersonal.ExamManagementAdmin.App.ME;
 import static com.prasunpersonal.ExamManagementAdmin.App.PREFERENCES;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.prasunpersonal.ExamManagementAdmin.Adapters.PagerAdapter;
-import com.prasunpersonal.ExamManagementAdmin.Fragments.CoursesStructureFragment;
 import com.prasunpersonal.ExamManagementAdmin.Fragments.ExamsFragment;
 import com.prasunpersonal.ExamManagementAdmin.Fragments.StudentsFragment;
+import com.prasunpersonal.ExamManagementAdmin.Fragments.UsersFragment;
 import com.prasunpersonal.ExamManagementAdmin.R;
 import com.prasunpersonal.ExamManagementAdmin.databinding.ActivityHomeBinding;
 
@@ -49,8 +44,8 @@ public class HomeActivity extends AppCompatActivity {
                 PREFERENCES.edit().remove("EMAIL").remove("PASSWORD").apply();
                 startActivity(new Intent(this, MainActivity.class));
                 finishAffinity();
-            } else if (item.getItemId() == R.id.users) {
-                startActivity(new Intent(this, UsersActivity.class));
+            } else if (item.getItemId() == R.id.courseStructure) {
+                startActivity(new Intent(this, CourseStructureActivity.class));
             }
             return true;
         });
@@ -58,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new ExamsFragment());
         fragments.add(new StudentsFragment());
-        fragments.add(new CoursesStructureFragment());
+        fragments.add(new UsersFragment());
 
         binding.homeTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

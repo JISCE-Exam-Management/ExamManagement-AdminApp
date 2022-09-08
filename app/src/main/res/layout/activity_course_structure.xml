@@ -5,28 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.UsersActivity">
+    tools:context=".Activities.CourseStructureActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/usersToolbar"
+        android:id="@+id/courseStructureToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="8dp"
-        android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:contentInsetStartWithNavigation="0dp"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/usersRefresher"
+        android:id="@+id/courseStructureRefresher"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Fragments.CoursesStructureFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/allUsers"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/coursesStructureViewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

@@ -14,7 +14,14 @@
     <item
         android:id="@+id/addNewHall"
         android:icon="@drawable/ic_add"
-        android:title="Search"
+        android:title="Add New Hall"
+        app:showAsAction="ifRoom|collapseActionView"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/downloadAttendance"
+        android:icon="@drawable/ic_download"
+        android:title="Download Attendance"
         app:showAsAction="ifRoom|collapseActionView"
         tools:ignore="HardcodedText" />
 </menu>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view"
+    tools:ignore="HardcodedText">
 
     <group>
-        <item android:id="@+id/users"
-            android:title="Users"
-            android:icon="@drawable/ic_people"/>
+        <item android:id="@+id/courseStructure"
+            android:title="Courses"
+            android:icon="@drawable/ic_graduation_cap" />
     </group>
     <item android:title="Account Section">
         <menu>

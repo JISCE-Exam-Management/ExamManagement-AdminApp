@@ -78,7 +78,7 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
     private void updateUi() {
         binding.studentDetailsRefresh.setRefreshing(true);
-        QUEUE.add(new JsonObjectRequest(Request.Method.GET, String.format("%s?student=%s", API.GET_STUDENT_BY_ID, studentId), null, response -> {
+        QUEUE.add(new JsonObjectRequest(Request.Method.GET, String.format("%s?student=%s", API.STUDENT_BY_ID, studentId), null, response -> {
             Student student = new Gson().fromJson(response.toString(), Student.class);
             viewModel.setSetSelectedStudent(student);
             binding.studentCategory.setText(String.format("%s / %s / %s / %s / %s", student.getDegree(), student.getCourse(), student.getStream(), student.getRegulation(), student.getSemester()));

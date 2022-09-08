@@ -3,14 +3,12 @@ package com.prasunpersonal.ExamManagementAdmin.Adapters;
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.prasunpersonal.ExamManagementAdmin.Models.Hall;
 import com.prasunpersonal.ExamManagementAdmin.Models.Student;
 import com.prasunpersonal.ExamManagementAdmin.databinding.StudentSelectionBinding;
 
@@ -18,16 +16,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.SelectionViewHolder> implements Filterable {
     private final List<Student> students;
     private final List<Student> allStudents;
+    private final Map<String, Boolean> candidates;
     private final setOnSelectionChangeListener listener;
 
-    public SelectionAdapter(List<Student> students, setOnSelectionChangeListener listener) {
+    public SelectionAdapter(List<Student> students, Map<String, Boolean> candidates, setOnSelectionChangeListener listener) {
         this.students = students;
         this.allStudents = new ArrayList<>(students);
+        this.candidates = candidates;
         this.listener = listener;
     }
 
@@ -44,9 +45,10 @@ public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.Sele
         holder.binding.studentBase.studentItemReg.setText(String.valueOf(student.getUnivReg()));
         holder.binding.studentBase.studentItemRoll.setText(String.valueOf(student.getUnivRoll()));
 
-        holder.binding.selectStudent.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            listener.OnSelectionChange(student, isChecked, position);
-        });
+        holder.binding.selectStudent.setOnCheckedChangeListener(null);
+        holder.binding.selectStudent.setChecked(false);
+        holder.binding.selectStudent.setChecked(candidates.containsKey(student.get_id()));
+        holder.binding.selectStudent.setOnCheckedChangeListener((buttonView, isChecked) -> listener.OnSelectionChange(student, isChecked, position));
 
         holder.itemView.setOnClickListener(v -> holder.binding.selectStudent.setChecked(!holder.binding.selectStudent.isChecked()));
     }

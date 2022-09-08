@@ -55,9 +55,9 @@ public class ManageHallActivity extends AppCompatActivity {
         binding.selectableStudents.setLayoutManager(new LinearLayoutManager(this));
         binding.selectableStudents.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        QUEUE.add(new JsonArrayRequest(Request.Method.POST, String.format("%s?exam=%s", API.EXAM_CANDIDATES, examId), null, studentsResponse -> {
+        QUEUE.add(new JsonArrayRequest(Request.Method.GET, String.format("%s?exam=%s", API.EXAM_CANDIDATES, examId), null, studentsResponse -> {
             ArrayList<Student> students = new Gson().fromJson(studentsResponse.toString(), new TypeToken<List<Student>>() {}.getType());
-            binding.selectableStudents.setAdapter(new SelectionAdapter(students, (student, selected, position) -> {
+            binding.selectableStudents.setAdapter(new SelectionAdapter(students, candidates, (student, selected, position) -> {
                 if (selected) {
                     candidates.put(student.get_id(), null);
                 } else {
@@ -65,9 +65,7 @@ public class ManageHallActivity extends AppCompatActivity {
                 }
                 binding.candidatesCount.setText(String.valueOf(candidates.size()));
             }));
-        }, error -> {
-            Toast.makeText(this, API.parseVolleyError(error), Toast.LENGTH_SHORT).show();
-        })).setRetryPolicy(new DefaultRetryPolicy());
+        }, error -> Toast.makeText(this, API.parseVolleyError(error), Toast.LENGTH_SHORT).show())).setRetryPolicy(new DefaultRetryPolicy());
 
         binding.studentSelectionToolbar.setNavigationOnClickListener(v -> {
             if (candidates.isEmpty() && binding.hallName.getText().toString().isEmpty()) {

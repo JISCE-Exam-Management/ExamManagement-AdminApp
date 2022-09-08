@@ -27,8 +27,6 @@ import com.prasunpersonal.ExamManagementAdmin.Models.Degree;
 import com.prasunpersonal.ExamManagementAdmin.Models.Regulation;
 import com.prasunpersonal.ExamManagementAdmin.databinding.FragmentRegulationsBinding;
 
-import org.json.JSONObject;
-
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +41,7 @@ public class RegulationsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentRegulationsBinding binding = FragmentRegulationsBinding.inflate(inflater, container, false);
-        assert getParentFragment() != null;
-        CourseStructureViewModel viewModel = new ViewModelProvider(getParentFragment()).get(CourseStructureViewModel.class);
+        CourseStructureViewModel viewModel = new ViewModelProvider(requireActivity()).get(CourseStructureViewModel.class);
         binding.allRegulations.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.allRegulations.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         viewModel.setSelectedRegulation(null);

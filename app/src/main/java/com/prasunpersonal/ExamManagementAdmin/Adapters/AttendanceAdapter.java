@@ -21,15 +21,17 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.StudentViewHolder> implements Filterable {
+    private final Hall hall;
     private final List<Student> students;
     private final List<Student> allStudents;
-    private Hall hall;
+    private final boolean editable;
     private final setOnAttendanceGivenListener listener;
 
-    public AttendanceAdapter(Hall hall, List<Student> students,  setOnAttendanceGivenListener listener) {
+    public AttendanceAdapter(Hall hall, List<Student> students, boolean editable, setOnAttendanceGivenListener listener) {
         this.hall = hall;
         this.students = students;
         this.allStudents = new ArrayList<>(students);
+        this.editable = editable;
         this.listener = listener;
     }
 
@@ -46,15 +48,16 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.St
         holder.binding.studentBase.studentItemReg.setText(String.valueOf(student.getUnivReg()));
         holder.binding.studentBase.studentItemRoll.setText(String.valueOf(student.getUnivRoll()));
 
-        if (Boolean.TRUE.equals(hall.getCandidates().get(student.get_id()))) {
-            holder.binding.presentBtn.setChecked(true);
-        } else if (Boolean.FALSE.equals(hall.getCandidates().get(student.get_id()))){
-            holder.binding.absentBtn.setChecked(true);
-        }
+        holder.binding.presentBtn.setEnabled(editable);
+        holder.binding.absentBtn.setEnabled(editable);
 
-        holder.binding.attendanceGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            listener.OnAttendanceGiven(student, checkedId == R.id.presentBtn, position);
-        });
+        holder.binding.attendanceGroup.setOnCheckedChangeListener(null);
+        holder.binding.attendanceGroup.clearCheck();
+
+        holder.binding.attendanceGroup.setOnCheckedChangeListener((group, checkedId) -> listener.OnAttendanceGiven(student, checkedId == R.id.presentBtn, position));
+
+        holder.binding.presentBtn.setChecked(Boolean.TRUE.equals(hall.getCandidates().get(student.get_id())));
+        holder.binding.absentBtn.setChecked(Boolean.FALSE.equals(hall.getCandidates().get(student.get_id())));
     }
 
     @Override
