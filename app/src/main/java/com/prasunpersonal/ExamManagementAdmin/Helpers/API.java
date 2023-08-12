@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class API {
-    private static final String BASE_URL = "https://exammanagement-server.herokuapp.com";
+    private static final String BASE_URL = "https://exammanagement-server.cyclic.app";
 
     public static final String ADMIN_SIGNUP = String.format("%s/admin/signup", BASE_URL);
     public static final String ADMIN_LOGIN = String.format("%s/admin/login", BASE_URL);
